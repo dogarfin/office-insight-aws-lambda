@@ -1,0 +1,24 @@
+RoomsIntentTime what rooms open at {Time}
+RoomsIntentTime rooms open at {Time}
+RoomsIntentTime what meeting rooms are open at {Time}
+RoomsIntentTime meeting rooms open at {Time}
+RoomsIntentTime where can i party at {Time}
+
+RoomsIntentNow what rooms are open now
+RoomsIntentNow rooms are open now
+RoomsIntentNow what meeting rooms are open now
+RoomsIntentNow meeting rooms are open now
+RoomsIntentNow where can i party now
+
+RoomsIntentDirection where is {MeetingRoom}
+RoomsIntentDirection how do i get to {MeetingRoom}
+
+RoomsIntentBook Book {Name} {Room} at {Time}
+
+RoomsIntentAssistance i need help
+RoomsIntentAssistance help
+RoomsIntentAssistance help me
+RoomsIntentAssistance help me please
+
+ExitIntent exit
+ExitIntent exitOfficeInsight

@@ -1,0 +1,49 @@
+{
+  "intents": [
+    {
+      "intent": "RoomsIntentTime",
+      "slots": [
+        {
+          "name": "Time",
+          "type": "AMAZON.TIME"
+        }
+      ]
+    },
+    {
+      "intent": "RoomsIntentDirection",
+      "slots": [
+        {
+          "name": "MeetingRoom",
+          "type": "LIST_OF_ROOMS"
+        }
+      ]
+    },
+    {
+      "intent": "RoomsIntentNow"
+    },
+    {
+      "intent": "RoomsIntentAssistance"
+    },
+    {
+      "intent": "RoomsIntentBook",
+      "slots" : [
+        {
+          "name": "Room",
+          "type": "LIST_OF_ROOMS"
+        },
+        {
+          "name": "Name",
+          "type": "AMAZON.US_FIRST_NAME"
+        },
+        {
+          "name": "Time",
+          "type": "AMAZON.TIME"
+        }
+      ]
+    },
+    {
+      "intent": "ExitIntent"
+    }
+
+  ]
+}
