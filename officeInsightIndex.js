@@ -198,13 +198,6 @@ function createRequest(methodType, path) {
 }
 
 function createGTFORequest(methodType, path, headers) {
-  var test = {
-    host: GTFO_HOST,
-    port: GTFO_PORT,
-    path: path,
-    method: methodType,
-    headers: headers
-  };
   return {
     host: GTFO_HOST,
     port: GTFO_PORT,
