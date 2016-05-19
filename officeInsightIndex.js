@@ -128,6 +128,8 @@ function getMeetingRoom(room, context) {
       } else if (directions.Fifty_One.hasOwnProperty(room)) {
         response += directions.Fifty_One[room] + " of the Fifty First floor.";
       }
+      // TODO: This bit should be configurable based on integration with
+      // visual floor plans/pings
       if (true) {
         response += " I've highlighted its location on the map for you.";
       }
