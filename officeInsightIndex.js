@@ -1,12 +1,15 @@
 var http = require('http');
 
 // Replace with Microsoft Azure account where wrapper is located
-var PRODUCTION_HOST_AVAILABILITY = 'localhost';
+var PRODUCTION_HOST_AVAILABILITY = 'ec2-54-164-226-122.compute-1.amazonaws.com';
 var PRODUCTION_HOST_PORT = '8080';
 var MEETING_ROOM_AVAILABILITY = '/rest/meetingRoom/availability/FIFTY_ONE';
 var MEETING_ROOM_AVAILABILITY_TIME = '?startTime=';
 var MEETING_ROOM_ASSISTANCE = '/rest/meetingRoom/assistance';
 var MEETING_ROOM_BOOK = '/rest/meetingRoom/book/';
+var GTFO_HOST = 'acheron.herokuapp.com';
+var GTFO_PORT = '80';
+var GTFO_PING = '/api/ping';
 
 var directions = {
   "Fifty_Three": {
@@ -23,15 +26,15 @@ var directions = {
     "Kilo": "west side"
   },
   "Fifty_One": {
-    "Lima": "northwest corner",
-    "Mike": "northwest corner",
-    "November": "northeast corner",
-    "Oscar": "northeast corner",
-    "Papa": "east side",
-    "Quebec": "east side",
-    "Romeo": "east side",
-    "Sierra": "south side",
-    "Tango": "north edge of the west side"
+    "Wicker Park": "northwest corner",
+    "Bucktown": "northwest corner",
+    "Gold Coast": "northwest corner",
+    "Goose Island": "northeast corner",
+    "Ravenswood": "northeast corner",
+    "Wrigleyville": "east side",
+    "The Loop": "east side",
+    "Old Town": "east side",
+    "Bronzeville": "south side"
   }
 };
 
@@ -113,11 +116,24 @@ function handleRoomIntentDirectionRequest(intent, context) {
 }
 
 function getMeetingRoom(room, context) {
-  if (directions.Fifty_Three.hasOwnProperty(room)) {
-    createResponse(null, room + " is located on the " + directions.Fifty_Three[room] + " of the Fifty Third Floor", context);
-  } else if (directions.Fifty_One.hasOwnProperty(room)) {
-    createResponse(null, room + " is located on the " + directions.Fifty_One[room] + " of the Fifty First floor", context);
-  }
+  var headers = {
+    'id' : room.toLowerCase(),
+    'anchor' : 'east-lobby'
+  };
+  http.request(createGTFORequest('POST', GTFO_PING, headers), function (response) {
+    response.on('data', function () {
+      var response = room + " is located on the ";
+      if (directions.Fifty_Three.hasOwnProperty(room)) {
+        response += directions.Fifty_Three[room] + " of the Fifty Third floor.";
+      } else if (directions.Fifty_One.hasOwnProperty(room)) {
+        response += directions.Fifty_One[room] + " of the Fifty First floor.";
+      }
+      if (true) {
+        response += " I've highlighted its location on the map for you.";
+      }
+      createResponse(null, response, context);
+    });
+  }).end();
 }
 
 function handleRoomIntentNowRequest(context) {
@@ -178,6 +194,24 @@ function createRequest(methodType, path) {
     port: PRODUCTION_HOST_PORT,
     path: path,
     method: methodType
+  };
+}
+
+function createGTFORequest(methodType, path, headers) {
+  var test = {
+    host: GTFO_HOST,
+    port: GTFO_PORT,
+    path: path,
+    method: methodType,
+    headers: headers
+  };
+  console.log(test);
+  return {
+    host: GTFO_HOST,
+    port: GTFO_PORT,
+    path: path,
+    method: methodType,
+    headers: headers
   };
 }
 
