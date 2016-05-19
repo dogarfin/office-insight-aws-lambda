@@ -205,7 +205,6 @@ function createGTFORequest(methodType, path, headers) {
     method: methodType,
     headers: headers
   };
-  console.log(test);
   return {
     host: GTFO_HOST,
     port: GTFO_PORT,
