@@ -1,7 +1,7 @@
 var http = require('http');
 
 // Replace with Microsoft Azure account where wrapper is located
-var PRODUCTION_HOST_AVAILABILITY = 'ec2-54-164-226-122.compute-1.amazonaws.com';
+var PRODUCTION_HOST_AVAILABILITY = 'localhost';
 var PRODUCTION_HOST_PORT = '8080';
 var MEETING_ROOM_AVAILABILITY = '/rest/meetingRoom/availability/FIFTY_ONE';
 var MEETING_ROOM_AVAILABILITY_TIME = '?startTime=';
