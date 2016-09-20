@@ -10,6 +10,7 @@ var MEETING_ROOM_BOOK = '/rest/meetingRoom/book/';
 var GTFO_HOST = 'acheron.herokuapp.com';
 var GTFO_PORT = '80';
 var GTFO_PING = '/api/ping';
+var GTFO_MAP_ANCHOR = 'west-lobby';
 
 var directions = {
   "Fifty_Three": {
@@ -118,7 +119,7 @@ function handleRoomIntentDirectionRequest(intent, context) {
 function getMeetingRoom(room, context) {
   var headers = {
     'id' : room.toLowerCase(),
-    'anchor' : 'east-lobby'
+    'anchor' : GTFO_MAP_ANCHOR
   };
   http.request(createGTFORequest('POST', GTFO_PING, headers), function (response) {
     response.on('data', function () {
