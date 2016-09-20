@@ -28,11 +28,11 @@
       "intent": "RoomsIntentBook",
       "slots" : [
         {
-          "name": "Room",
+          "name": "MeetingRoom",
           "type": "LIST_OF_ROOMS"
         },
         {
-          "name": "Name",
+          "name": "FirstName",
           "type": "AMAZON.US_FIRST_NAME"
         },
         {
