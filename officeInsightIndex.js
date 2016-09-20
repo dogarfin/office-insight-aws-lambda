@@ -27,15 +27,15 @@ var directions = {
     "Kilo": "west side"
   },
   "Fifty_One": {
-    "Wicker Park": "northwest corner",
-    "Bucktown": "northwest corner",
-    "Gold Coast": "northwest corner",
-    "Goose Island": "northeast corner",
-    "Ravenswood": "northeast corner",
-    "Wrigleyville": "east side",
-    "The Loop": "east side",
-    "Old Town": "east side",
-    "Bronzeville": "south side"
+    "wicker park": "northwest corner",
+    "bucktown": "northwest corner",
+    "gold coast": "northwest corner",
+    "goose island": "northeast corner",
+    "ravenswood": "northeast corner",
+    "wrigleyville": "east side",
+    "the loop": "east side",
+    "old town": "east side",
+    "bronzeville": "south side"
   }
 };
 
@@ -125,13 +125,12 @@ function getMeetingRoom(room, context) {
     response.on('data', function () {
       var response = room + " is located on the ";
       if (directions.Fifty_Three.hasOwnProperty(room)) {
-        response += directions.Fifty_Three[room] + " of the Fifty Third floor.";
+        response += directions.Fifty_Three[room.toLowerCase()] + " of the Fifty Third floor.";
       } else if (directions.Fifty_One.hasOwnProperty(room)) {
-        response += directions.Fifty_One[room] + " of the Fifty First floor.";
+        response += directions.Fifty_One[room.toLowerCase()] + " of the Fifty First floor.";
       }
-      // TODO: This bit should be configurable based on integration with
-      // visual floor plans/pings
-      if (true) {
+
+      if (GTFO_MAP_ANCHOR) {
         response += " I've highlighted its location on the map for you.";
       }
       createResponse(null, response, context);
