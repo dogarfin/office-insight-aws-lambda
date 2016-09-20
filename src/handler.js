@@ -3,18 +3,18 @@ import http from 'http';
 import directions from './directions';
 import createRequest from './create-request';
 import createResponse from './create-response';
+import {
+  MEETING_ROOM_AVAILABILITY,
+  MEETING_ROOM_AVAILABILITY_TIME,
+  MEETING_ROOM_ASSISTANCE,
+  MEETING_ROOM_BOOK,
+  GTFO_HOST,
+  GTFO_PORT,
+  GTFO_PING,
+  GTFO_MAP_ANCHOR
+} from './config';
 
-// Replace with Microsoft Azure account where wrapper is located
-var MEETING_ROOM_AVAILABILITY = '/rest/meetingRoom/availability/FIFTY_ONE';
-var MEETING_ROOM_AVAILABILITY_TIME = '?startTime=';
-var MEETING_ROOM_ASSISTANCE = '/rest/meetingRoom/assistance';
-var MEETING_ROOM_BOOK = '/rest/meetingRoom/book/';
-var GTFO_HOST = 'acheron.herokuapp.com';
-var GTFO_PORT = '80';
-var GTFO_PING = '/api/ping';
-var GTFO_MAP_ANCHOR = 'west-lobby';
-
-export function handler(event, context) {
+export const handler = (event, context) => {
   try {
     if (event.session && event.session.new) {
       onSessionStarted({requestId: event.request.requestId}, event.session);
@@ -28,12 +28,12 @@ export function handler(event, context) {
       context.succeed();
     }
   } catch (e) {
-    context.fail("Exception: " + e);
+    context.fail(`Exception: ${e}`);
   }
 };
 
-function onIntent(intentRequest, session, context) {
-  console.log("onIntent requestId=" + intentRequest.requestId + ", sessionId=" + session.sessionId);
+const onIntent = (intentRequest, session, context) => {
+  console.log(`onIntent requestId=${intentRequest.requestId}, sessionId=${session.sessionId}`);
 
   var intent = intentRequest.intent,
     intentName = intentRequest.intent.name;
@@ -141,12 +141,10 @@ function getEwsWrapperInfo(context) {
   return createResponse(null, "Welcome to Office Insights! Ask me about meeting rooms.", context);
 }
 
-function createGTFORequest(methodType, path, headers) {
-  return {
-    host: GTFO_HOST,
-    port: GTFO_PORT,
-    path: path,
-    method: methodType,
-    headers: headers
-  };
-}
+const createGTFORequest = (methodType, path, headers) => ({
+  host: GTFO_HOST,
+  port: GTFO_PORT,
+  path: path,
+  method: methodType,
+  headers: headers
+});

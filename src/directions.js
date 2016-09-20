@@ -1,27 +1,30 @@
 const directions = {
   Fifty_Three: {
-    'Alpha': 'northwest corner',
-    'Beta': 'north side',
-    'Charlie': 'north side',
-    'Delta': 'north side',
-    'Echo': 'northeast corner',
-    'Foxtrot': 'east side',
-    'Golf': 'east side',
-    'Hotel': 'east side',
-    'India': 'east side',
-    'Juliette': 'east side',
-    'Kilo': 'west side'
+    lake: 'north side',
+    randolph: 'north side',
+    washington: 'north side',
+    'the grid': 'west side',
+    clark: 'north side around the northwest corner',
+    lasalle: 'northwest corner',
+    dearborn: 'east side',
+    state: 'east side, around the corner from reception',
+    ogilvie: 'east side',
+    union: 'east side',
+    michigan: 'east side',
+    'lakeshore drive': 'east side',
+    lakeshore: 'east side'
   },
+
   Fifty_One: {
     'wicker park': 'northwest corner',
-    'bucktown': 'northwest corner',
+    bucktown: 'northwest corner',
     'gold coast': 'northwest corner',
     'goose island': 'northeast corner',
-    'ravenswood': 'northeast corner',
-    'wrigleyville': 'east side',
+    ravenswood: 'northeast corner',
+    wrigleyville: 'east side',
     'the loop': 'east side',
     'old town': 'east side',
-    'bronzeville': 'south side'
+    bronzeville: 'south side'
   }
 };
 
