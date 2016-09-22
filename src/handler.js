@@ -35,8 +35,8 @@ export const handler = (event, context) => {
 const onIntent = (intentRequest, session, context) => {
   console.log(`onIntent requestId=${intentRequest.requestId}, sessionId=${session.sessionId}`);
 
-  var intent = intentRequest.intent,
-    intentName = intentRequest.intent.name;
+  const { intent } = intentRequest;
+  const intentName = intent.name;
 
   // dispatch custom intents to handlers here
   if ("RoomsIntentNow" === intentName) {
@@ -54,92 +54,86 @@ const onIntent = (intentRequest, session, context) => {
   } else {
     throw "Invalid intent";
   }
-}
+};
 
-function handleRoomsIntentBookRequest(intent, context) {
-  console.log(intent);
-  var sourceBook = MEETING_ROOM_BOOK + intent.slots.Room.value + "/" + intent.slots.Name.value + MEETING_ROOM_AVAILABILITY_TIME + intent.slots.Time.value;
+const handleRoomsIntentBookRequest = (intent, context) => {
+  console.log(intent)
+  const { Room, Name, Time } = intent.slots;
+  const sourceBook = `${MEETING_ROOM_BOOK}${Room.value}/${Name.value}${MEETING_ROOM_AVAILABILITY_TIME}${Time.value}`;
 
-  http.request(createRequest('POST', sourceBook), function (response) {
-    response.on('data', function () {
-      createResponse(null, "I have sent the booking request for " + intent.slots.Name.value + " for the room " + intent.slots.Room.value + " at " + intent.slots.Time.value, null, context);
+  http.request(createRequest('POST', sourceBook), (response) => {
+    response.on('data', () => {
+      createResponse(null, `I have sent the booking request for ${Name.value} for the room ${Room.value} at ${Time.value}`, null, context);
     });
   }).end();
-}
+};
 
-function handleRoomIntentAssistanceRequest(context) {
-  http.request(createRequest('POST', MEETING_ROOM_ASSISTANCE), function () {
-    createResponse(null, "I've sent along your request for assistance.  Someone will arrive shortly.", context);
+const handleRoomIntentAssistanceRequest = (context) => {
+  http.request(createRequest('POST', MEETING_ROOM_ASSISTANCE), () => {
+    createResponse(null, 'I\'ve sent along your request for assistance. Someone will arrive shortly.', context);
   }).end();
-}
+};
 
-function handleExitIntentRequest() {
+const handleExitIntentRequest = () => {
   createResponse("Thanks for using Office Insights. Goodbye!");
-}
+};
 
-function handleRoomIntentTimeRequest(intent, context) {
-  var time = intent.slots.Time.value;
-  http.request(createRequest('GET', MEETING_ROOM_AVAILABILITY + MEETING_ROOM_AVAILABILITY_TIME + time), function (response) {
-    response.on('data', function (data) {
-      createResponse("Ask about open rooms", "The meeting rooms open at " + time + " are " + data + ".", context);
+const handleRoomIntentTimeRequest = (intent, context) => {
+  const { Time } = intent.slots;
+  http.request(createRequest('GET', `${MEETING_ROOM_AVAILABILITY}${MEETING_ROOM_AVAILABILITY_TIME}${Time.value}`), (response) => {
+    response.on('data', (data) => {
+      createResponse('Ask about open rooms', `The meeting rooms open at ${Time.value} are ${data}.`, context);
     });
   }).end();
-}
+};
 
-function handleRoomIntentDirectionRequest(intent, context) {
-  var requestedRoom = intent.slots.MeetingRoom.value;
-  return getMeetingRoom(requestedRoom, context);
-}
+const handleRoomIntentDirectionRequest = ({ slots }, context) => getMeetingRoom(slots.MeetingRoom.value, context);
 
-function getMeetingRoom(room, context) {
-  var headers = {
-    'id' : room.toLowerCase(),
-    'anchor' : GTFO_MAP_ANCHOR
+const getMeetingRoom = (room, context) => {
+  const headers = {
+    id: room.toLowerCase(),
+    anchor: GTFO_MAP_ANCHOR
   };
-  http.request(createGTFORequest('POST', GTFO_PING, headers), function (response) {
-    response.on('data', function () {
+
+  http.request(createGTFORequest('POST', GTFO_PING, headers), (response) => {
+    response.on('data', () => {
       var response = room + " is located on the ";
       if (directions.Fifty_Three.hasOwnProperty(room)) {
-        response += directions.Fifty_Three[room.toLowerCase()] + " of the Fifty Third floor.";
+        response += `${directions.Fifty_Three[room.toLowerCase()]} of the Fifty Third floor.`;
       } else if (directions.Fifty_One.hasOwnProperty(room)) {
-        response += directions.Fifty_One[room.toLowerCase()] + " of the Fifty First floor.";
+        response += `${directions.Fifty_One[room.toLowerCase()]} of the Fifty First floor.`;
       }
 
       if (GTFO_MAP_ANCHOR) {
-        response += " I've highlighted its location on the map for you.";
+        response += ' I\'ve highlighted its location on the map for you.';
       }
       createResponse(null, response, context);
     });
   }).end();
-}
+};
 
-function handleRoomIntentNowRequest(context) {
-  http.request(createRequest('GET', MEETING_ROOM_AVAILABILITY), function (response) {
-    response.on('data', function (data) {
-      createResponse("Ask about open rooms", "The current open meeting rooms are " + data + ".", context);
+const handleRoomIntentNowRequest = (context) => {
+  http.request(createRequest('GET', MEETING_ROOM_AVAILABILITY), (response) => {
+    response.on('data', (data) => {
+      createResponse('Ask about open rooms', `The current open meeting rooms are ${data}.`, context);
     });
   }).end();
-}
+};
 
-function onLaunch(launchRequest, session, context) {
-  console.log("onLaunch requestId=" + launchRequest.requestId
-    + ", sessionId=" + session.sessionId);
+const onLaunch = (launchRequest, session, context) => {
+  console.log(`onLaunch requestId=${launchRequest.requestId}, sessionId=${session.sessionId}`);
   getEwsWrapperInfo(context);
-}
+};
 
-function onSessionStarted(sessionStartedRequest, session) {
-  console.log("onSessionStarted requestId=" + sessionStartedRequest.requestId
-    + ", sessionId=" + session.sessionId);
-}
+const onSessionStarted = (sessionStartedRequest, session) => {
+  console.log(`onSessionStarted requestId=${sessionStartedRequest.requestId}, sessionId=${session.sessionId}`);
+};
 
-function onSessionEnded(sessionEndedRequest, session) {
-  console.log("onSessionEnded requestId=" + sessionEndedRequest.requestId
-    + ", sessionId=" + session.sessionId);
-}
+const onSessionEnded = (sessionEndedRequest, session) => {
+  console.log(`onSessionEnded requestId=${sessionEndedRequest.requestId}, sessionId=${session.sessionId}`);
+};
 
-function getEwsWrapperInfo(context) {
-  return createResponse(null, "Welcome to Office Insights! Ask me about meeting rooms.", context);
-}
+const getEwsWrapperInfo = (context) => createResponse(null, 'Welcome to Office Insights! Ask me about meeting rooms.', context);
 
 const createGTFORequest = (methodType, path, headers) => ({
   host: GTFO_HOST,
