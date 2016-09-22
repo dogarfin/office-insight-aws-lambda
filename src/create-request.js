@@ -1,5 +1,7 @@
-var PRODUCTION_HOST_AVAILABILITY = 'localhost';
-var PRODUCTION_HOST_PORT = '8080';
+import {
+  PRODUCTION_HOST_AVAILABILITY,
+  PRODUCTION_HOST_PORT
+} from './config';
 
 const createRequest = (methodType, path) => ({
   host: PRODUCTION_HOST_AVAILABILITY,
