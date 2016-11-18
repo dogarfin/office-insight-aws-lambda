@@ -1,7 +1,11 @@
-export const MEETING_ROOM_AVAILABILITY = '/rest/meetingRoom/availability/FIFTY_ONE';
+const REST = {
+  MEETING_ROOM: '/rest/meetingRoom/'
+};
+
+export const MEETING_ROOM_AVAILABILITY = `${REST.MEETING_ROOM}/availability/FIFTY_ONE`;
 export const MEETING_ROOM_AVAILABILITY_TIME = '?startTime=';
-export const MEETING_ROOM_ASSISTANCE = '/rest/meetingRoom/assistance';
-export const MEETING_ROOM_BOOK = '/rest/meetingRoom/book/';
+export const MEETING_ROOM_ASSISTANCE = `${REST.MEETING_ROOM}/assistance`;
+export const MEETING_ROOM_BOOK = `${REST.MEETING_ROOM}/book/`;
 
 export const GTFO_HOST = 'acheron.herokuapp.com';
 export const GTFO_PORT = '80';
