@@ -12,3 +12,8 @@ Move the contents of the files to:
  - Alexa Skills kit
 
 Replace the PRODUCTION_HOST_AVAILABILITY in the officeInsightIndex file with the location of the service.
+
+# Deployment
+Run `npm run build` and copy the contents `dist/bundle.js` into the lambda.
+
+If the size is too large to copy, run `npm run zip` and upload `dist/lambda.zip`.

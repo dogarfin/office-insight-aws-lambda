@@ -13,7 +13,7 @@ RoomsIntentNow where can i party now
 RoomsIntentDirection where is {MeetingRoom}
 RoomsIntentDirection how do i get to {MeetingRoom}
 
-RoomsIntentBook Book {Name} {Room} at {Time}
+RoomsIntentBook Book {MeetingRoom} for {FirstName} at {Time}
 
 RoomsIntentAssistance i need help
 RoomsIntentAssistance help
