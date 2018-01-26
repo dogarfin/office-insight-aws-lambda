@@ -11,7 +11,8 @@ import {
   GTFO_HOST,
   GTFO_PORT,
   GTFO_PING,
-  GTFO_MAP_ANCHOR
+  GTFO_MAP_ANCHOR,
+  GTFO_ID
 } from './config';
 
 export const handler = (event, context) => {
@@ -91,8 +92,9 @@ const handleRoomIntentDirectionRequest = ({ slots }, context) => getMeetingRoom(
 
 const getMeetingRoom = (room, context) => {
   const headers = {
-    id: room.toLowerCase(),
-    anchor: GTFO_MAP_ANCHOR
+    targetId: room.toLowerCase(),
+    anchor: GTFO_MAP_ANCHOR,
+    id: GTFO_ID
   };
 
   http.request(createGTFORequest('POST', GTFO_PING, headers), (response) => {
