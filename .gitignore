@@ -37,3 +37,4 @@ node_modules
 resources/gtfo.json
 .idea/
 office-insight.iml
+.vscode
