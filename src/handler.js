@@ -14,7 +14,7 @@ import {
   GTFO_PING,
   GTFO_MAP_ANCHOR,
   GTFO_ID,
-  NEW_ROOM_PING,
+  NEW_ROOM_PING
 } from './config';
 
 export const handler = (event, context) => {
@@ -75,7 +75,7 @@ const handleRoomsIntentBookRequest = (intent, context) => {
             Time.value
           }`,
           null,
-          context,
+          context
         );
       });
     })
@@ -88,7 +88,7 @@ const handleRoomIntentAssistanceRequest = (context) => {
       createResponse(
         null,
         'I\'ve sent along your request for assistance. Someone will arrive shortly.',
-        context,
+        context
       );
     })
     .end();
@@ -104,17 +104,17 @@ const handleRoomIntentTimeRequest = (intent, context) => {
     .request(
       createRequest(
         'GET',
-        `${MEETING_ROOM_AVAILABILITY}${MEETING_ROOM_AVAILABILITY_TIME}${Time.value}`,
+        `${MEETING_ROOM_AVAILABILITY}${MEETING_ROOM_AVAILABILITY_TIME}${Time.value}`
       ),
       (response) => {
         response.on('data', (data) => {
           createResponse(
             'Ask about open rooms',
             `The meeting rooms open at ${Time.value} are ${data}.`,
-            context,
+            context
           );
         });
-      },
+      }
     )
     .end();
 };
@@ -124,29 +124,32 @@ const getMeetingRoom = (room, context) => {
     targetId: room.toLowerCase(),
     id: GTFO_ID,
     event: NEW_ROOM_PING,
-    anchor: GTFO_MAP_ANCHOR,
+    anchor: GTFO_MAP_ANCHOR
   };
 
   https
     .request(createGTFORequest('POST', GTFO_PING, headers), (response) => {
       response.on('data', () => {
-        let response = `${room} is located on the `;
+        let verbalResponse = `${room} is located on the `;
         if (directions.Fifty_Three.hasOwnProperty(room)) {
-          response += `${directions.Fifty_Three[room.toLowerCase()]} of the Fifty Third floor.`;
+          verbalResponse += `${
+            directions.Fifty_Three[room.toLowerCase()]
+          } of the Fifty Third floor.`;
         } else if (directions.Fifty_One.hasOwnProperty(room)) {
-          response += `${directions.Fifty_One[room.toLowerCase()]} of the Fifty First floor.`;
+          verbalResponse += `${directions.Fifty_One[room.toLowerCase()]} of the Fifty First floor.`;
         }
 
         if (GTFO_MAP_ANCHOR) {
-          response += ' I\'ve highlighted its location on the map for you.';
+          verbalResponse += ' I\'ve highlighted its location on the map for you.';
         }
-        createResponse(null, response, context);
+        createResponse(null, verbalResponse, context);
       });
     })
     .end();
 };
 
-const handleRoomIntentDirectionRequest = ({ slots }, context) => getMeetingRoom(slots.MeetingRoom.value, context);
+const handleRoomIntentDirectionRequest = ({ slots }, context) =>
+  getMeetingRoom(slots.MeetingRoom.value, context);
 
 const handleRoomIntentNowRequest = (context) => {
   http
@@ -155,7 +158,7 @@ const handleRoomIntentNowRequest = (context) => {
         createResponse(
           'Ask about open rooms',
           `The current open meeting rooms are ${data}.`,
-          context,
+          context
         );
       });
     })
@@ -169,22 +172,23 @@ const onLaunch = (launchRequest, session, context) => {
 
 const onSessionStarted = (sessionStartedRequest, session) => {
   console.log(
-    `onSessionStarted requestId=${sessionStartedRequest.requestId}, sessionId=${session.sessionId}`,
+    `onSessionStarted requestId=${sessionStartedRequest.requestId}, sessionId=${session.sessionId}`
   );
 };
 
 const onSessionEnded = (sessionEndedRequest, session) => {
   console.log(
-    `onSessionEnded requestId=${sessionEndedRequest.requestId}, sessionId=${session.sessionId}`,
+    `onSessionEnded requestId=${sessionEndedRequest.requestId}, sessionId=${session.sessionId}`
   );
 };
 
-const getEwsWrapperInfo = context => createResponse(null, 'Welcome to Office Insights! Ask me about meeting rooms.', context);
+const getEwsWrapperInfo = context =>
+  createResponse(null, 'Welcome to Office Insights! Ask me about meeting rooms.', context);
 
 const createGTFORequest = (methodType, path, headers) => ({
   host: GTFO_HOST,
   port: GTFO_PORT,
   path,
   method: methodType,
-  headers,
+  headers
 });
