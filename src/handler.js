@@ -131,17 +131,18 @@ const getMeetingRoom = (room, context) => {
     .request(createGTFORequest('POST', GTFO_PING, headers), (response) => {
       response.on('data', () => {
         let verbalResponse = `${room} is located on the `;
-        if (directions.Fifty_Three.hasOwnProperty(room)) {
-          verbalResponse += `${
-            directions.Fifty_Three[room.toLowerCase()]
-          } of the Fifty Third floor.`;
-        } else if (directions.Fifty_One.hasOwnProperty(room)) {
-          verbalResponse += `${directions.Fifty_One[room.toLowerCase()]} of the Fifty First floor.`;
+        const formattedRoom = room.toLowerCase();
+
+        if (directions.Fifty_Three.hasOwnProperty(formattedRoom)) {
+          verbalResponse += `${directions.Fifty_Three[formattedRoom]} of the Fifty Third floor.`;
+        } else if (directions.Fifty_One.hasOwnProperty(formattedRoom)) {
+          verbalResponse += `${directions.Fifty_One[formattedRoom]} of the Fifty First floor.`;
         }
 
         if (GTFO_MAP_ANCHOR) {
           verbalResponse += ' I\'ve highlighted its location on the map for you.';
         }
+
         createResponse(null, verbalResponse, context);
       });
     })
